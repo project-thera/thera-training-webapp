@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: docker/production/web/Dockerfile
       args:
-        RUBY_VERSION: '2.6.6'
+        RUBY_VERSION: '2.6.6-alpine3.12'
         BUNDLER_VERSION: '2.2.14'
     env_file: docker/production/.env
     restart: unless-stopped

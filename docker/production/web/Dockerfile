@@ -2,10 +2,11 @@
 # https://gist.github.com/zentetsukenz/5e330b801f983e3d39757686dcb41cc2
 
 ARG RUBY_VERSION
-FROM ruby:$RUBY_VERSION-alpine AS base
+FROM ruby:$RUBY_VERSION AS base
 
 ENV RAILS_APP /usr/local/app
-RUN apk update -qq && apk add -q build-base tzdata
+RUN apk update -qq 
+RUN apk add -q build-base tzdata
 
 ARG BUNDLER_VERSION
 RUN gem update --system

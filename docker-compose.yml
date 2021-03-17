@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: ./docker/development/web/Dockerfile
       args:
-        RUBY_VERSION: '2.6.6'
+        RUBY_VERSION: '2.6.6-alpine3.12'
         BUNDLER_VERSION: '2.2.14'
     environment:
       - SECREY_KEY_BASE=9e803c5c2d3f977ca3bd09220f008ca2e076d28bfe4b09427e212bab0c14942ba26ee6

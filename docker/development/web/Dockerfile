@@ -1,7 +1,7 @@
 # https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
 
 ARG RUBY_VERSION
-FROM ruby:$RUBY_VERSION-alpine
+FROM ruby:$RUBY_VERSION
 
 RUN apk update -qq 
 # RUN apk add -q build-base nodejs tzdata yarn python
