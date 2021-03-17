@@ -3,15 +3,14 @@ version: '3.8'
 services:
   db:
     container_name: thera-training-webapp_db
-    image: mariadb:latest
+    image: linuxserver/mariadb:latest
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - TZ=America/Argentina/Buenos_Aires
     volumes:
-      - db_data:/var/lib/mysql
-    ports:
-      - 3306:3306
+      - db_data:/config
     logging:
       driver: none
+    restart: unless-stopped
 
   web:
     container_name: thera-training-webapp_web
