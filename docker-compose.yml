@@ -4,6 +4,7 @@ version: '3.8'
 
 services:
   db:
+    container_name: thera-training-webapp_db
     image: mariadb:latest
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -33,18 +34,21 @@ services:
       - gems:/usr/local/bundle
     ports:
       - 3000:3000
+    depends_on:
+      - db
 
-  # webpacker:
-  #   container_name: thera-training-webapp_webpacker
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/development/webpacker/Dockerfile
-  #   ports:
-  #     - 3035:3035
-  #   depends_on:
-  #     - web
+  webpacker:
+    container_name: thera-training-webapp_webpacker
+    build:
+      context: .
+      dockerfile: ./docker/development/webpacker/Dockerfile
+    ports:
+      - 3035:3035
+    depends_on:
+      - web
 
   phpmyadmin:
+    container_name: thera-training-webapp_phpmyadmin
     image: phpmyadmin/phpmyadmin
     ports:
       - 80:80
