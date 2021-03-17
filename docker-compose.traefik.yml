@@ -6,7 +6,7 @@ services:
       - traefik.enable=true
       - traefik.http.middlewares.theratrainingwebapp-https.redirectscheme.scheme=https
       - traefik.http.routers.theratrainingwebapp-http.entrypoints=http
-      - traefik.http.routers.theratrainingwebapp-http.rule=Host(`gift.noack.net.ar`)
+      - traefik.http.routers.theratrainingwebapp-http.rule=Host(`training.proyectothera.com.ar`)
       - traefik.http.routers.theratrainingwebapp-http.middlewares=theratrainingwebapp-https@docker
       - traefik.http.routers.theratrainingwebapp.entrypoints=https
       - traefik.http.routers.theratrainingwebapp.rule=Host(`training.proyectothera.com.ar`)

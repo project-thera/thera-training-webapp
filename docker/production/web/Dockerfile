@@ -21,14 +21,19 @@ COPY . /usr/local/app
 
 # nodejs
 FROM base AS nodejs
-RUN apk add -q nodejs python yarn
+
+RUN apk add -q nodejs python3 yarn
 RUN yarn install --no-lockfile --production \
     && bundle exec rake webpacker:compile RAILS_ENV=production
 
 # production
 FROM base AS production
+
 RUN rm -rf ./node_modules ./public/packs ./tmp /tmp/* \
     && bundle exec rake tmp:create
+
 COPY --from=nodejs "$RAILS_APP/public/packs" "$RAILS_APP/public/packs"
+
 EXPOSE 3000
+
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

@@ -21,10 +21,8 @@ COPY Gemfile.lock .
 
 RUN bundle install --jobs 4 --retry 3
 
-ADD . $RAILS_APP
-# COPY . $RAILS_APP
+COPY . $RAILS_APP
 
 EXPOSE 3000
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
-# CMD ["rails", "server", "-b", "0.0.0.0"]

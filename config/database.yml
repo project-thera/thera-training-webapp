@@ -50,6 +50,6 @@ test:
 #
 production:
   <<: *default
-  database: thera-training-webapp_production
-  username: thera-training-webapp
-  password: <%= ENV['THERA-TRAINING-WEBAPP_DATABASE_PASSWORD'] %>
+  database: <%= ENV['MYSQL_DATABASE'] %>
+  username: <%= ENV['MYSQL_USER'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>

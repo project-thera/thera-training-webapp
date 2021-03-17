@@ -2,8 +2,9 @@ version: '3.8'
 
 services:
   db:
-    container_name: thera-training-webapp_db
+    container_name: training.proyectothera.com.ar_db
     image: linuxserver/mariadb:latest
+    env_file: docker/production/.env
     environment:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
@@ -13,7 +14,7 @@ services:
     restart: unless-stopped
 
   web:
-    container_name: thera-training-webapp_web
+    container_name: training.proyectothera.com.ar_web
     image: project-thera/thera-training-webapp
     build:
       context: .
@@ -21,8 +22,8 @@ services:
       args:
         # downgraded because of this
         # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#time64_requirements
-        RUBY_VERSION: '2.6.6-alpine3.12'
-        BUNDLER_VERSION: '2.2.14'
+        - RUBY_VERSION=2.6.6-alpine3.12
+        - BUNDLER_VERSION=2.2.14
     env_file: docker/production/.env
     restart: unless-stopped
     ports:
