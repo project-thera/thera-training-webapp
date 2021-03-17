@@ -6,7 +6,7 @@ FROM ruby:$RUBY_VERSION AS base
 
 ENV RAILS_APP /usr/local/app
 RUN apk update -qq 
-RUN apk add -q build-base tzdata
+RUN apk add -q build-base tzdata mariadb-dev
 
 ARG BUNDLER_VERSION
 RUN gem update --system
