@@ -17,9 +17,9 @@ services:
     image: project-thera/thera-training-webapp
     build:
       context: .
-      dockerfile: docker/production/Dockerfile
+      dockerfile: docker/production/web/Dockerfile
       args:
-        RUBY_VERSION: '2.7.2'
+        RUBY_VERSION: '2.6.6'
         BUNDLER_VERSION: '2.2.14'
     env_file: docker/production/.env
     restart: unless-stopped
