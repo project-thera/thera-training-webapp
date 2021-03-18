@@ -22,10 +22,11 @@ COPY . /usr/local/app
 # nodejs
 FROM base AS nodejs
 
-ENV PYTHON /usr/bin/python3
 RUN apk add -q nodejs python3 yarn
-RUN yarn install --no-lockfile --production \
-    && bundle exec rake webpacker:compile RAILS_ENV=production
+RUN yarn install --no-lockfile --production
+
+ENV PYTHON /usr/bin/python3
+RUN bundle exec rake webpacker:compile RAILS_ENV=production
 
 # production
 FROM base AS production
