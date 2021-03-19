@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.find_or_create_by(user_params.merge({ last_session_id: session[:session_id] }))
+    @user = User.find_by(user_params)
+
+    @user = User.create(user_params.merge({ last_session_id: session[:session_id] })) if @user.nil?
 
     if @user.valid?
       sign_in(@user)
@@ -18,6 +20,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :email)
+    params.require(:user).permit(:name, :email)
   end
 end

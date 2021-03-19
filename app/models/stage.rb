@@ -3,6 +3,8 @@ class Stage < ApplicationRecord
 
   has_many :photos
 
+  # FIXME
+  # delegate!
   def phase
     exercise.phase
   end

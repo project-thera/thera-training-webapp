@@ -43,8 +43,8 @@
           <v-text-field
             class="mb-4"
             type="text"
-            id="name"
-            name="name"
+            id="user_name"
+            name="user[name]"
             v-model="name"
             label="Nombre"
             required
@@ -58,8 +58,8 @@
           <v-text-field
             class="mb-4"
             type="text"
-            id="email"
-            name="email"
+            id="user_email"
+            name="user[email]"
             v-model="email"
             label="Correo electrónico"
             required
@@ -77,7 +77,6 @@
 
 <script>
 export default {
-  // name: "LoginForm",
   data: () => {
     return {
       name: null,
