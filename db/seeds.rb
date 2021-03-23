@@ -8,62 +8,102 @@
 
 daniffig = User.create name: 'daniffig', email: 'daniffig@gmail.com'
 
-p01 = Phase.create number: 1, name: 'Fase #1'
+# p01 = Phase.create number: 1, name: 'Fase #1'
 
-p01e01 = p01.exercises.create name: 'Reposo'
-p01e02 = p01.exercises.create name: 'Protuir con boca abierta'
-p01e03 = p01.exercises.create name: 'Protuir con boca cerrada'
-p01e04 = p01.exercises.create name: 'Retruir con boca abierta'
-p01e05 = p01.exercises.create name: 'Retruir con boca cerrada'
-p01e06 = p01.exercises.create name: 'Inflar cachetes'
-p01e07 = p01.exercises.create name: 'Caramelo'
-p01e08 = p01.exercises.create name: 'Morder labios'
-p01e09 = p01.exercises.create name: 'Lateralizar'
-p01e10 = p01.exercises.create name: 'Rozar dientes'
-p01e11 = p01.exercises.create name: 'Tocar con lengua'
-p01e12 = p01.exercises.create name: 'Tocar con lengua'
-p01e13 = p01.exercises.create name: 'Tocar con lengua'
+# p01e01 = p01.exercises.create name: 'Reposo'
+# p01e02 = p01.exercises.create name: 'Protuir con boca abierta'
+# p01e03 = p01.exercises.create name: 'Protuir con boca cerrada'
+# p01e04 = p01.exercises.create name: 'Retruir con boca abierta'
+# p01e05 = p01.exercises.create name: 'Retruir con boca cerrada'
+# p01e06 = p01.exercises.create name: 'Inflar cachetes'
+# p01e07 = p01.exercises.create name: 'Caramelo'
+# p01e08 = p01.exercises.create name: 'Morder labios'
+# p01e09 = p01.exercises.create name: 'Lateralizar'
+# p01e10 = p01.exercises.create name: 'Rozar dientes'
+# p01e11 = p01.exercises.create name: 'Tocar con lengua'
+# p01e12 = p01.exercises.create name: 'Tocar con lengua'
+# p01e13 = p01.exercises.create name: 'Tocar con lengua'
 
-p01e01.stages.create({
-  name: 'Rostro en reposo',
-  description: 'Tomarse una foto con el rostro en reposo, relajado.',
-  order: 1
-})
+# p01e01.stages.create({
+#   name: 'Rostro en reposo',
+#   description: 'Tomarse una foto con el rostro en reposo, relajado.',
+#   order: 1
+# })
 
-p01e06.stages.create({
-  name: 'Inflar cachete derecho',
-  description: 'Inflar el cachete derecho',
-  video_link: 'https://www.youtube.com/embed/cYtGJGp-9hA',
-  order: 1
-})
+# p01e06.stages.create({
+#   name: 'Inflar cachete derecho',
+#   description: 'Inflar el cachete derecho',
+#   video_link: 'https://www.youtube.com/embed/cYtGJGp-9hA',
+#   order: 1
+# })
 
-p01e06.stages.create({
-  name: 'Inflar cachete izquierdo',
-  description: 'Inflar el cachete izquierdo',
-  video_link: 'https://www.youtube.com/embed/gtwjIr6timY',
-  order: 2
-})
+# p01e06.stages.create({
+#   name: 'Inflar cachete izquierdo',
+#   description: 'Inflar el cachete izquierdo',
+#   video_link: 'https://www.youtube.com/embed/gtwjIr6timY',
+#   order: 2
+# })
 
-p01e07.stages.create({
-  name: 'Caramelo arriba',
-  description: 'Colocar la lengua dentro de la boca, por encima del labio superior, como jugando con un caramelo.',
-  order: 1
-})
+# p01e07.stages.create({
+#   name: 'Caramelo arriba',
+#   description: 'Colocar la lengua dentro de la boca, por encima del labio superior, como jugando con un caramelo.',
+#   order: 1
+# })
 
-p01e07.stages.create({
-  name: 'Caramelo a la derecha',
-  description: 'Colocar la lengua dentro de la boca, a la derecha de la comisura derecha de los labios, como jugando con un caramelo.',
-  order: 2
-})
+# p01e07.stages.create({
+#   name: 'Caramelo a la derecha',
+#   description: 'Colocar la lengua dentro de la boca, a la derecha de la comisura derecha de los labios, como jugando con un caramelo.',
+#   order: 2
+# })
 
-p01e07.stages.create({
-  name: 'Caramelo abajo',
-  description: 'Colocar la lengua dentro de la boca, debajo del labio inferior, como jugando con un caramelo.',
-  order: 3
-})
+# p01e07.stages.create({
+#   name: 'Caramelo abajo',
+#   description: 'Colocar la lengua dentro de la boca, debajo del labio inferior, como jugando con un caramelo.',
+#   order: 3
+# })
 
-p01e07.stages.create({
-  name: 'Caramelo a la izquierda',
-  description: 'Colocar la lengua dentro de la boca, a la izquierda de la comisura izquierda de los labios, como jugando con un caramelo.',
-  order: 4
-})
+# p01e07.stages.create({
+#   name: 'Caramelo a la izquierda',
+#   description: 'Colocar la lengua dentro de la boca, a la izquierda de la comisura izquierda de los labios, como jugando con un caramelo.',
+#   order: 4
+# })
+
+Stage.create([
+  {
+    name: 'Rostro en reposo',
+    description: 'Tomarse una foto con el rostro en reposo, relajado.',
+    label: 'stage1',
+  },
+  {
+    name: 'Inflar cachete derecho',
+    description: 'Inflar el cachete derecho',
+    label: 'stage2',
+    video_link: 'https://www.youtube.com/embed/cYtGJGp-9hA'
+  },
+  {
+    name: 'Inflar cachete izquierdo',
+    description: 'Inflar el cachete izquierdo',
+    label: 'stage3',
+    video_link: 'https://www.youtube.com/embed/gtwjIr6timY'
+  },
+  {
+    name: 'Caramelo arriba',
+    description: 'Colocar la lengua dentro de la boca, por encima del labio superior, como jugando con un caramelo.',
+    label: 'stage4'
+  },
+  {
+    name: 'Caramelo a la derecha',
+    description: 'Colocar la lengua dentro de la boca, a la derecha de la comisura derecha de los labios, como jugando con un caramelo.',
+    label: 'stage5'
+  },
+  {
+    name: 'Caramelo abajo',
+    description: 'Colocar la lengua dentro de la boca, debajo del labio inferior, como jugando con un caramelo.',
+    label: 'stage6'
+  },
+  {
+    name: 'Caramelo a la izquierda',
+    description: 'Colocar la lengua dentro de la boca, a la izquierda de la comisura izquierda de los labios, como jugando con un caramelo.',
+    label: 'stage7'
+  }
+])

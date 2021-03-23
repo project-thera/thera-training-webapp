@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if @user.valid?
       sign_in(@user)
 
-      redirect_to phase_url(1)
+      redirect_to stages_url
     else
       render :new
     end

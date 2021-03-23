@@ -1,7 +1,5 @@
 <template>
   <div>
-    <div>photoForm</div>
-
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <v-form
         ref="form"
@@ -16,7 +14,7 @@
           id="photo_stage_id"
           name="photo[stage_id]"
           type="hidden"
-          value="1"
+          :value="stageId"
         />
         <input
           id="photo_photo"
@@ -24,8 +22,12 @@
           type="file"
           accept="image/*"
           capture="user"
+          class="d-none"
+          ref="photoInput"
         />
-        <button type="submit">Enviar</button>
+
+        <v-btn class="primary mb-2" block @click="takePhoto()">Tomá tu foto</v-btn>
+        <v-btn type="submit" class="primary mb-2" block>¡Enviá tu foto!</v-btn>
       </v-form>
     </ValidationObserver>
   </div>
@@ -34,7 +36,20 @@
 <script>
 export default {
   name: "PhotoForm",
+  props: {
+    stageId: {
+      type: Number,
+      required: true,
+    },
+    step: {
+      type: Number,
+      required: true,
+    },
+  },
   methods: {
+    takePhoto() {
+      this.$refs.photoInput.click()
+    },
     async onSubmit() {
       let formData = new FormData(this.$refs.form.$el);
 
@@ -47,12 +62,13 @@ export default {
           processData: false,
         },
       })
-      .then((response) => {
-        console.log("then");
-      })
-      .catch((error) => {
-        console.log("error");
-      });
+        .then((response) => {
+          this.$bus.$emit("stage-completed", this.step);
+        })
+        .catch((error) => {
+          console.log("error");
+        });
+
       // console.log(new FormData(this.$refs.form.$el));
       // if (await this.$refs.observer.validate()) {
       // this.$refs.form.$el.submit();

@@ -12,22 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_03_18_013550) do
 
-  create_table "exercises", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "phase_id"
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["phase_id"], name: "index_exercises_on_phase_id"
-  end
-
-  create_table "phases", charset: "utf8mb4", force: :cascade do |t|
-    t.integer "number", null: false
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["number"], name: "index_phases_on_number"
-  end
-
   create_table "photos", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "stage_id", null: false
@@ -39,14 +23,13 @@ ActiveRecord::Schema.define(version: 2021_03_18_013550) do
   end
 
   create_table "stages", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.string "name", null: false
     t.string "description"
+    t.string "label", null: false
     t.string "video_link"
     t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id"], name: "index_stages_on_exercise_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
