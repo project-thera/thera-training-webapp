@@ -24,10 +24,34 @@
           capture="user"
           class="d-none"
           ref="photoInput"
+          @change="cameraTriggered()"
         />
 
-        <v-btn class="primary mb-2" block @click="takePhoto()">Tomá tu foto</v-btn>
-        <v-btn type="submit" class="primary mb-2" block>¡Enviá tu foto!</v-btn>
+        <v-alert v-if="photoLoaded" type="info"
+          >Foto cargada. ¡Presioná ENVIAR TU FOTO para que podamos
+          procesarla!</v-alert
+        >
+
+        <v-alert v-if="!photoTaken" type="warning"
+          >¡No olvides tomar tu foto!</v-alert
+        >
+
+        <v-alert v-if="hasError" type="error"
+          >Ocurrió un error al enviar su foto. Por favor, intente nuevamente más
+          tarde.</v-alert
+        >
+
+        <v-btn
+          class="primary mb-2"
+          block
+          @click="takePhoto()"
+          :disabled="loading"
+          >Tomá tu foto</v-btn
+        >
+        <v-btn type="submit" class="primary mb-2" block :loading="loading"
+          >¡Enviá tu foto!</v-btn
+        >
+        <v-btn text block @click="nextPhoto()">Omitir</v-btn>
       </v-form>
     </ValidationObserver>
   </div>
@@ -36,6 +60,14 @@
 <script>
 export default {
   name: "PhotoForm",
+  data: () => {
+    return {
+      photoTaken: true,
+      photoLoaded: false,
+      hasError: false,
+      loading: false,
+    };
+  },
   props: {
     stageId: {
       type: Number,
@@ -47,32 +79,41 @@ export default {
     },
   },
   methods: {
+    nextPhoto() {
+      this.$bus.$emit("stage-completed", this.step);
+    },
     takePhoto() {
-      this.$refs.photoInput.click()
+      this.$refs.photoInput.click();
+    },
+    cameraTriggered() {
+      this.photoLoaded = this.$refs.photoInput.value.length > 0;
     },
     async onSubmit() {
       let formData = new FormData(this.$refs.form.$el);
 
-      this.$axios({
-        method: "POST",
-        url: this.$params.photos.routes.create,
-        data: formData,
-        headers: {
-          "Content-Type": false,
-          processData: false,
-        },
-      })
-        .then((response) => {
-          this.$bus.$emit("stage-completed", this.step);
-        })
-        .catch((error) => {
-          console.log("error");
-        });
+      this.photoTaken = this.$refs.photoInput.value.length > 0;
 
-      // console.log(new FormData(this.$refs.form.$el));
-      // if (await this.$refs.observer.validate()) {
-      // this.$refs.form.$el.submit();
-      // }
+      if (this.photoTaken) {
+        this.loading = true;
+
+        this.$axios({
+          method: "POST",
+          url: this.$params.photos.routes.create,
+          data: formData,
+          headers: {
+            "Content-Type": false,
+            processData: false,
+          },
+        })
+          .then((response) => {
+            this.$bus.$emit("stage-completed", this.step);
+            this.loading = false;
+          })
+          .catch((error) => {
+            this.hasError = true;
+            this.loading = false;
+          });
+      }
     },
   },
 };

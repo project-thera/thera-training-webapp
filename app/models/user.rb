@@ -3,7 +3,6 @@ class User < ApplicationRecord
 
   attr_accessor :session_id
 
-  validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   validates :last_session_id, presence: true
 

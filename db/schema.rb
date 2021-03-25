@@ -24,16 +24,14 @@ ActiveRecord::Schema.define(version: 2021_03_18_013550) do
 
   create_table "stages", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
-    t.string "description"
+    t.text "description"
     t.string "label", null: false
-    t.string "video_link"
-    t.integer "order", null: false
+    t.string "video_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
-    t.string "name", null: false
     t.string "email", null: false
     t.string "last_session_id"
     t.datetime "created_at", precision: 6, null: false

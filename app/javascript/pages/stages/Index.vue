@@ -1,5 +1,6 @@
 <template>
   <div>
+    <youtube video-id="WS5md4v5srg" width="100%" :resize="true" />
     <div v-if="stages">
       <v-stepper v-model="currentStep" vertical>
         <template v-for="stage in stages">
@@ -13,9 +14,10 @@
           <v-stepper-content :step="stage.id" :key="`${stage.id}-content`">
             <p>{{ stage.description }}</p>
             <youtube
-              :video-id="$youtube.getIdFromURL(stage.video_link)"
-              player-width="100%"
-              v-if="stage.video_link"
+              :video-id="stage.video_id"
+              width="100%"
+              v-if="stage.video_id"
+              ref="youtube"
             />
             <PhotoForm :stageId="stage.id" :step="stage.id" />
           </v-stepper-content>
@@ -26,12 +28,10 @@
 </template>
 
 <script>
-import ExerciseView from "@/components/ExerciseView";
 import PhotoForm from "@/components/PhotoForm";
 
 export default {
   components: {
-    ExerciseView,
     PhotoForm,
   },
   data: () => {
@@ -45,10 +45,9 @@ export default {
     this.loadExercises();
   },
   methods: {
-    eventhappened(params) {
-      console.log(params);
-    },
     nextStep(step) {
+      this.$refs.youtube.map((youtube) => { youtube.player.stopVideo() });
+
       if (step === this.stages.size) {
         this.currentStep = 1;
       } else {

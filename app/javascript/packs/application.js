@@ -21,7 +21,8 @@ import vuetify from "@/plugins/vuetify";
 import "@/plugins/autoloading";
 import "@/plugins/bus";
 import "@/plugins/vee-validate";
-import "@/plugins/youtube-embed";
+// import "@/plugins/youtube-embed";
+import "@/plugins/youtube";
 
 // Use packages
 Vue.config.productionTip = false;

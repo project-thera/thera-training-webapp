@@ -6,7 +6,7 @@ class StagesController < ApplicationController
       format.html do
       end
       format.json do
-        render json: Stage.all.order(:order)
+        render json: Stage.all
       end
     end
   end
