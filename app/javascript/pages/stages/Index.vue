@@ -2,7 +2,7 @@
   <div>
     <youtube video-id="WS5md4v5srg" width="100%" :resize="true" />
     <div v-if="stages">
-      <v-stepper v-model="currentStep" vertical>
+      <v-stepper v-model="currentStep" vertical editable>
         <template v-for="stage in stages">
           <v-stepper-step
             :complete="currentStep > stage.id"

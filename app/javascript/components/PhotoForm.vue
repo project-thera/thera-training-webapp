@@ -83,6 +83,7 @@ export default {
       this.$bus.$emit("stage-completed", this.step);
     },
     takePhoto() {
+      this.photoTaken = true;
       this.$refs.photoInput.click();
     },
     cameraTriggered() {

@@ -5,7 +5,7 @@ FROM ruby:$RUBY_VERSION
 
 RUN apk update -qq 
 # RUN apk add -q build-base nodejs tzdata yarn python
-RUN apk add -q build-base nodejs tzdata yarn mariadb-dev
+RUN apk add -q build-base nodejs tzdata yarn mariadb-dev shared-mime-info
 
 ARG BUNDLER_VERSION
 RUN gem update --system

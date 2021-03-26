@@ -25,7 +25,11 @@ services:
         - RUBY_VERSION=2.6.6-alpine3.12
         - BUNDLER_VERSION=2.2.14
     env_file: docker/production/.env
-    restart: unless-stopped
+    # restart: unless-stopped
+    volumes:
+      - web_gems:/usr/local/bundle
+      - web_modules:/usr/local/app/node_modules
+      - web_uploads:/usr/local/app/private/uploads
     ports:
       - 3000:3000
     depends_on:
@@ -33,3 +37,6 @@ services:
 
 volumes:
   db_data:
+  web_gems:
+  web_modules:
+  web_uploads:

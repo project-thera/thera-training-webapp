@@ -172,66 +172,66 @@ Stage.create([
     name: 'Caramelo hacia arriba',
     description: 'Vamos a hacer de cuenta que tenemos un caramelo en la boca y lo movemos con la lengua. En este caso, el caramelo está detrás del labio superior. ¡Muy bien!',
     label: 'caramelo_arriba',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'FAF4wE1MOHg'
   },
   {
     name: 'Caramelo hacia la derecha',
     description: 'Vamos a hacer de cuenta que tenemos un caramelo en la boca y lo movemos con la lengua. En este caso, el caramelo está detrás de la comisura derecha. ¡Excelente!',
     label: 'caramelo_derecha',
-    video_id: 'XpjHZv4zWxs'
+    video_id: '7Jnay2yaC1g'
   },
   {
     name: 'Caramelo hacia abajo',
     description: 'Vamos a hacer de cuenta que tenemos un caramelo en la boca y lo movemos con la lengua. En este caso, el caramelo está detrás del labio inferior. ¡Muy bien!',
     label: 'caramelo_abajo',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'jt540gN7oGY'
   },
   {
     name: 'Caramelo hacia la izquierda',
     description: 'Vamos a hacer de cuenta que tenemos un caramelo en la boca y lo movemos con la lengua. En este caso, el caramelo está detrás de la comisura izquierda de la boca. ¡Perfecto!',
     label: 'caramelo_izquierda',
-    video_id: 'XpjHZv4zWxs'
+    video_id: '0D-FHG3DBEI'
   },
   {
     name: 'Retruir con la boca cerrada',
     description: 'Vamos a retruir con la boca cerrada y tomarnos una foto. Presioná el botón TOMAR FOTO y mirando a la cámara frontal de tu celular en modo vertical, hacé la sonrisa más falsa que te salga, con la boca cerrada. ¡Excelente!',
     label: 'retruir_cerrada',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'eSYYsqbU9nA'
   },
   {
     name: 'Retruir con la boca abierta',
     description: 'Vamos a retruir con la boca abierta. Presioná el botón TOMAR FOTO y utilizando la cámara frontal de tu celular en modo vertical, hacé la sonrisa más falsa que te salga, mostrando los dientes. ¡Excelente!',
     label: 'retruir_abierta',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'w5xXppugTD8'
   },
   {
     name: 'Morder el labio superior',
-    description: 'Vamos a tomarnos una foto mordiéndonos el labio superior. Presioná el botón TOMAR FOTO y utilizando la cámara frontal de tu celular en modo vertical, mordete con los dientes inferiores el labio superior como si fueras el monstruo de Frankenstein. ¡Muy bien! ',
+    description: 'Vamos a tomarnos una foto mordiéndonos el labio superior. Presioná el botón TOMAR FOTO y utilizando la cámara frontal de tu celular en modo vertical, mordete con los dientes inferiores el labio superior como si fueras el monstruo de Frankenstein. ¡Muy bien!',
     label: 'morder_labio_superior',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'GlUQrEtbwPg'
   },
   {
     name: 'Morder el labio inferior',
-    description: 'Vamos a tomarnos una foto mordiéndonos el labio superior. Presioná el botón TOMAR FOTO y utilizando la cámara frontal de tu celular en modo vertical, mordete con los dientes superiores el labio inferior como si fueras un vampiro. ¡Perfecto! ',
+    description: 'Vamos a tomarnos una foto mordiéndonos el labio superior. Presioná el botón TOMAR FOTO y utilizando la cámara frontal de tu celular en modo vertical, mordete con los dientes superiores el labio inferior como si fueras un vampiro. ¡Perfecto!',
     label: 'morder_labio_inferior',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'V9Tw01hZe2U'
   },
   {
     name: 'Boca abierta, lengua abajo',
     description: 'Vamos a tomarnos una foto con la boca abierta y la lengua en reposo escondida detrás de los dientes inferiores. Presioná el botón TOMAR FOTO y con la cámara frontal de tu celular en modo vertical, abrí la boca y escondé la lengua detrás de los dientes de abajo. ¡Perfecto!',
     label: 'boca_abierta_lengua_abajo',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'OwNHLp1oENg'
   },
   {
     name: 'Boca abierta, lengua arriba',
     description: 'Vamos a tomarnos una foto con la boca abierta y la lengua hacia arriba. Presioná el botón TOMAR FOTO y con la cámara frontal de tu celular en modo vertical, abrí la boca y escondé la lengua detrás de los dientes de arriba. ¡Muy bien!',
     label: 'boca_abierta_lengua_arriba',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'WvJRWdSafe8'
   },
   {
     name: 'Conejito',
     description: 'Vamos a tomarnos una foto haciendo boca de conejito. Presioná el botón TOMAR FOTO y con la cámara frontal de tu celular en modo vertical, sacá todo el aire de la boca y juntá los cachetes para que tu boca se parezca a la de un conejo. ¡Muy bien!',
     label: 'conejito',
-    video_id: 'XpjHZv4zWxs'
+    video_id: 'mG-0PbxNqkg'
   }
 ])

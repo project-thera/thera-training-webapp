@@ -1,4 +1,3 @@
-* persist images in docker volume
 * show feedback while taking and loading photo (add tick to button / green)
 * add thanks
 * add favicon!
