@@ -14,8 +14,6 @@ RUN gem install bundler:$BUNDLER_VERSION
 
 WORKDIR /tmp
 COPY Gemfile Gemfile.lock /tmp/
-# COPY Gemfile /tmp/
-# RUN gem install mimemagic -v '0.3.9'
 RUN bundle install --jobs 4 --retry 3
 
 WORKDIR /usr/local/app
@@ -33,12 +31,15 @@ RUN bundle exec rake webpacker:compile RAILS_ENV=production
 # production
 FROM base AS production
 
-RUN rm -rf ./node_modules ./public/packs ./tmp /tmp/* \
+# RUN rm -rf ./node_modules ./public/packs ./tmp /tmp/* \
+#     && bundle exec rake tmp:create
+
+# FIXME
+# don't remove node_modules because of rpi4 io performance
+RUN rm -rf ./public/packs ./tmp /tmp/* \
     && bundle exec rake tmp:create
 
 COPY --from=nodejs "$RAILS_APP/public/packs" "$RAILS_APP/public/packs"
-
-RUN ls /usr/local/bundle/bin
 
 EXPOSE 3000
 

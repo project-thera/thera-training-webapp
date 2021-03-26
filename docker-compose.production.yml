@@ -5,8 +5,6 @@ services:
     container_name: training.proyectothera.com.ar_db
     image: linuxserver/mariadb:latest
     env_file: docker/production/.env
-    environment:
-      - TZ=America/Argentina/Buenos_Aires
     volumes:
       - db_data:/config
     logging:
@@ -25,9 +23,9 @@ services:
         - RUBY_VERSION=2.6.6-alpine3.12
         - BUNDLER_VERSION=2.2.14
     env_file: docker/production/.env
-    # restart: unless-stopped
+    restart: unless-stopped
     volumes:
-      - web_gems:/usr/local/bundle
+      # - web_gems:/usr/local/bundle
       - web_modules:/usr/local/app/node_modules
       - web_uploads:/usr/local/app/private/uploads
     ports:
@@ -37,6 +35,6 @@ services:
 
 volumes:
   db_data:
-  web_gems:
+  # web_gems:
   web_modules:
   web_uploads:
