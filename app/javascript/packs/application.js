@@ -18,10 +18,10 @@ import axios from "@/plugins/axios";
 import routes from "@/plugins/routes";
 import vuetify from "@/plugins/vuetify";
 
-import "@/plugins/autoloading";
+import "@/assets/favicon.ico";
+
 import "@/plugins/bus";
 import "@/plugins/vee-validate";
-// import "@/plugins/youtube-embed";
 import "@/plugins/youtube";
 
 // Use packages

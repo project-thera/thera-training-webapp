@@ -2,12 +2,13 @@
   <div>
     <youtube video-id="WS5md4v5srg" width="100%" :resize="true" />
     <div v-if="stages">
-      <v-stepper v-model="currentStep" vertical editable>
+      <v-stepper v-model="currentStep" vertical>
         <template v-for="stage in stages">
           <v-stepper-step
             :complete="currentStep > stage.id"
             :step="stage.id"
             :key="`${stage.id}-step`"
+            editable
           >
             <span class="text-h5">{{ stage.name }}</span>
           </v-stepper-step>

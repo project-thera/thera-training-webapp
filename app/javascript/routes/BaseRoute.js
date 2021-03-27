@@ -1,10 +1,10 @@
+import Index from "@/pages/stages/Index";
 import New from "@/pages/users/New";
 
-import StageRoute from "@/routes/StageRoute";
-import UserRoute from "@/routes/UserRoute";
-
-const baseRoutes = [{ path: "/", component: New, meta: { resource: "User" } }];
-
-const routes = baseRoutes.concat(StageRoute, UserRoute);
+const routes = [
+  { path: "/", component: New },
+  { path: "/inicio", component: New },
+  { path: "/training", component: Index },
+];
 
 export default routes;

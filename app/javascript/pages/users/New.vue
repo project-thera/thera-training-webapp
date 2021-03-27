@@ -42,8 +42,8 @@
         <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
           <v-form
             ref="form"
-            :action="$params.login.path"
-            method="post"
+            action="/users"
+            method="POST"
             @submit.prevent="handleSubmit(onSubmit)"
           >
             <input name="utf8" type="hidden" value="✓" />

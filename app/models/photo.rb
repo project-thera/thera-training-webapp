@@ -5,10 +5,10 @@ class Photo < ApplicationRecord
   mount_uploader :photo, PhotoUploader
 
   def store_dir
-    "#{user.store_dir}"
+    "#{stage.label}"
   end
 
   def new_filename(original_filename)
-    "#{stage.base_id}__#{Time.now.nsec}#{File.extname(original_filename)}"
+    "#{user.last_session_id}__#{Time.now.nsec}#{File.extname(original_filename)}"
   end
 end

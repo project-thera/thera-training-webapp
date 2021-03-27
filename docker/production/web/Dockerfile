@@ -22,9 +22,9 @@ COPY . /usr/local/app
 # nodejs
 FROM base AS nodejs
 
-RUN apk add -q nodejs python3 yarn
+RUN apk add -q nodejs python2 yarn
 
-ENV PYTHON /usr/bin/python3
+ENV PYTHON /usr/bin/python2
 RUN yarn install --no-lockfile --production
 RUN bundle exec rake webpacker:compile RAILS_ENV=production
 

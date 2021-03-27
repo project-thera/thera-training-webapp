@@ -18,7 +18,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   def store_dir
     #"uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
 
-    "private/uploads/users/#{model.store_dir}"
+    "private/uploads/photos/#{model.store_dir}"
   end
 
   def cache_dir

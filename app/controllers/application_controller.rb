@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
   def user_signed_in?
     current_user.present?
   end
+
+  def redirect_to_sign_in
+    redirect_to login_url
+  end
 end

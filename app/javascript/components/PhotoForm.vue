@@ -3,7 +3,7 @@
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <v-form
         ref="form"
-        :action="$params.photos.routes.create"
+        action="/photos"
         method="post"
         @submit.prevent="handleSubmit(onSubmit)"
       >
@@ -99,7 +99,7 @@ export default {
 
         this.$axios({
           method: "POST",
-          url: this.$params.photos.routes.create,
+          url: "/photos",
           data: formData,
           headers: {
             "Content-Type": false,

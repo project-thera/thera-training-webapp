@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if @user.valid?
       sign_in(@user)
 
-      redirect_to stages_url
+      redirect_to training_url
     else
       render :new
     end
