@@ -10,6 +10,8 @@ services:
     logging:
       driver: none
     restart: unless-stopped
+    networks:
+      - default
 
   web:
     container_name: training.proyectothera.com.ar_web
@@ -30,6 +32,8 @@ services:
       - web_uploads:/usr/local/app/private/uploads
     depends_on:
       - db
+    networks:
+      - default
 
 volumes:
   db_data:
