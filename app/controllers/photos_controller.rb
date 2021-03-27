@@ -1,10 +1,6 @@
 class PhotosController < ApplicationController
   before_action :redirect_to_sign_in, unless: :user_signed_in?
 
-  def index
-    @user = current_user
-  end
-
   def create
     @photo = current_user.photos.new photo_params
 

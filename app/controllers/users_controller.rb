@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   
   def new
+    render html: '', layout: true
   end
 
   def create

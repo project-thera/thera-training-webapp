@@ -29,16 +29,6 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
 document.addEventListener("DOMContentLoaded", () => {
-  var dataset = document.getElementById("app").dataset;
-
-  if (dataset.hasOwnProperty("params")) {
-    Vue.prototype.$params = JSON.parse(dataset.params);
-  }
-
-  if (dataset.hasOwnProperty("flash")) {
-    Vue.prototype.$flash = JSON.parse(dataset.flash);
-  }
-
   Vue.prototype.$csrfToken = document.querySelector(
     '[name="csrf-token"]'
   ).content;
