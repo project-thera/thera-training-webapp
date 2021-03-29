@@ -13,14 +13,7 @@
             <span class="text-h5">{{ stage.name }}</span>
           </v-stepper-step>
           <v-stepper-content :step="stage.id" :key="`${stage.id}-content`">
-            <p>{{ stage.description }}</p>
-            <youtube
-              :video-id="stage.video_id"
-              width="100%"
-              v-if="stage.video_id"
-              ref="youtube"
-            />
-            <PhotoForm :stageId="stage.id" :step="stage.id" />
+            <PhotoForm :stage="stage" v-if="currentStep == stage.id" />
           </v-stepper-content>
         </template>
       </v-stepper>
@@ -38,8 +31,23 @@ export default {
   data: () => {
     return {
       stages: null,
-      currentStep: 1,
+      step: 1,
+      showDescription: false,
+      showYouTubePlayer: false,
     };
+  },
+  computed: {
+    // https://stackoverflow.com/questions/50260260/vuejs-variable-is-undefined-inside-computed-only
+    currentStep: {
+      get: function() {
+        return this.step;
+      },
+      set: function(step) {
+        if (step > this.stages.length) this.$router.push({ name: 'thank-you' });
+
+        this.step = step;
+      }
+    }
   },
   created() {
     this.$bus.$on("stage-completed", this.nextStep);
@@ -47,8 +55,6 @@ export default {
   },
   methods: {
     nextStep(step) {
-      this.$refs.youtube.map((youtube) => { youtube.player.stopVideo() });
-
       if (step === this.stages.size) {
         this.currentStep = 1;
       } else {

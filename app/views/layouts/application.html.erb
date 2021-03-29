@@ -7,6 +7,28 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- social tags -->
+    <meta
+      content="¿Te gustaría entrenar a un androide? ¡Ayudanos con tus fotos a entrenar al androide Thera!"
+      name="description" />
+    <meta content="article" property="og:type" />
+    <meta content="Proyecto Thera - Training" property="og:title" />
+    <meta
+      content="¿Te gustaría entrenar a un androide? ¡Ayudanos con tus fotos a entrenar al androide Thera!"
+      property="og:description" />
+    <meta content="https://training.proyectothera.com.ar/assets/images/logo-preview.jpg" property="og:image" />
+    <meta content="https://training.proyectothera.com.ar/index.html" property="og:url" />
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XJ320WRE4V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XJ320WRE4V');
+    </script>
+
     <%= favicon_pack_tag 'media/assets/favicon.ico' %>
 
     <%= stylesheet_pack_tag 'application', media: 'all' %>
@@ -15,6 +37,5 @@
 
   <body>
     <%= content_tag :div, nil, id: "app" %>
-    <%#= yield %>
   </body>
 </html>

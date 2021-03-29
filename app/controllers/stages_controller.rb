@@ -11,4 +11,8 @@ class StagesController < ApplicationController
       end
     end
   end
+
+  def thankyou
+    render html: '', layout: true
+  end
 end

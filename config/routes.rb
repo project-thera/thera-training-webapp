@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/training', to: 'stages#index', as: 'training'
   post '/users', to: 'users#create', as: 'users'
   get '/inicio', to: 'users#new', as: 'login'
+  get '/muchas-gracias-por-participar', to: 'stages#thankyou', as: 'thankyou'
 
   # root 'users#new'
   root to: redirect('/inicio')

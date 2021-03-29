@@ -1,59 +1,107 @@
 <template>
   <div>
-    <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-      <v-form
-        ref="form"
-        action="/photos"
-        method="post"
-        @submit.prevent="handleSubmit(onSubmit)"
+    <v-form
+      ref="form"
+      action="/photos"
+      method="post"
+      @submit.prevent="onSubmit"
+    >
+      <input name="utf8" type="hidden" value="✓" />
+      <input type="hidden" name="authenticity_token" :value="$csrfToken" />
+
+      <input
+        id="photo_stage_id"
+        name="photo[stage_id]"
+        type="hidden"
+        :value="stage.id"
+      />
+
+      <input
+        id="photo_photo"
+        name="photo[photo]"
+        type="file"
+        accept="image/*"
+        capture="user"
+        class="d-none"
+        ref="photoInput"
+        @change="evalPhoto()"
+      />
+
+      <youtube
+        class="mb-2"
+        :video-id="stage.video_id"
+        width="100%"
+        v-if="stage.video_id"
+        :ref="`${stage.id}-youtube`"
+      />
+
+      <p class="mb-2 text-justify" v-if="!photoUploaded && showDescription">
+        {{ stage.description }}
+      </p>
+
+      <v-alert type="success" class="mb-2" v-if="photoUploaded" 
+        >¡Muchas gracias! Recibimos tu foto, presioná el botón SIGUIENTE para
+        avanzar a la siguiente etapa.</v-alert
       >
-        <input name="utf8" type="hidden" value="✓" />
-        <input type="hidden" name="authenticity_token" :value="$csrfToken" />
 
-        <input
-          id="photo_stage_id"
-          name="photo[stage_id]"
-          type="hidden"
-          :value="stageId"
-        />
-        <input
-          id="photo_photo"
-          name="photo[photo]"
-          type="file"
-          accept="image/*"
-          capture="user"
-          class="d-none"
-          ref="photoInput"
-          @change="cameraTriggered()"
-        />
+      <v-alert type="info" class="mb-2" v-if="photoLoaded && !photoUploaded"
+        >Foto cargada. ¡Presioná ENVIAR TU FOTO para que podamos
+        procesarla!</v-alert
+      >
 
-        <v-alert v-if="photoLoaded" type="info"
-          >Foto cargada. ¡Presioná ENVIAR TU FOTO para que podamos
-          procesarla!</v-alert
-        >
+      <v-alert type="error" class="mb-2" v-if="uploadError"
+        >Ocurrió un error al enviar su foto. Por favor, intente nuevamente más
+        tarde.</v-alert
+      >
 
-        <v-alert v-if="!photoTaken" type="warning"
-          >¡No olvides tomar tu foto!</v-alert
-        >
-
-        <v-alert v-if="hasError" type="error"
-          >Ocurrió un error al enviar su foto. Por favor, intente nuevamente más
-          tarde.</v-alert
-        >
-
-        <v-btn
-          class="primary mb-2"
-          block
-          @click="takePhoto()"
-          :disabled="loading"
-          >Tomá tu foto</v-btn
-        >
-        <v-btn type="submit" class="primary mb-2" block :loading="loading"
-          >¡Enviá tu foto!</v-btn
-        >
-        <v-btn text block @click="nextPhoto()">Omitir</v-btn>
-      </v-form>
-    </ValidationObserver>
+      <v-row no-gutters>
+        <v-col cols="12" class="pb-2" v-if="!photoUploaded">
+          <v-btn
+            text block
+            v-if="!photoUploaded && !showDescription"
+            @click="showDescription = true"
+            ><v-icon left>{{ $vuetify.icons.values.commentText }}</v-icon
+            >Ver descripción</v-btn
+          >
+        </v-col>
+        <v-col cols="12" sm="6" class="pb-2" v-if="!photoUploaded">
+          <v-btn
+            class="primary"
+            large block
+            @click="takePhoto()"
+            :disabled="loading"
+            ><v-icon left>{{ $vuetify.icons.values.camera }}</v-icon
+            >¡Tomá tu foto</v-btn
+          >
+        </v-col>
+        <v-col cols="12" sm="6" class="pb-2 pl-sm-4" v-if="!photoUploaded">
+          <v-btn
+            type="submit"
+            class="primary"
+            large block
+            :loading="loading"
+            :disabled="!photoLoaded"
+            ><v-icon left>{{ $vuetify.icons.values.cloudUpload }}</v-icon
+            >¡Enviá tu foto!</v-btn
+          >
+        </v-col>
+        <v-col cols="12" class="pb-2">
+          <v-btn
+            color="error"
+            outlined block
+            v-if="!photoUploaded"
+            @click="nextPhoto()"
+            ><v-icon left>{{ $vuetify.icons.values.cancel }}</v-icon
+            >Omitir</v-btn
+          >
+          <v-btn color="success" large block v-if="photoUploaded" @click="nextPhoto()"
+            >Siguiente<v-icon right>{{
+              $vuetify.icons.values.chevronRight
+            }}</v-icon></v-btn
+          >
+        </v-col>
+      </v-row>
+    </v-form>
   </div>
 </template>
 
@@ -62,39 +110,34 @@ export default {
   name: "PhotoForm",
   data: () => {
     return {
-      photoTaken: true,
       photoLoaded: false,
-      hasError: false,
+      photoUploaded: false,
+      uploadError: false,
       loading: false,
+      showDescription: false,
+      showYouTubePlayer: false,
     };
   },
   props: {
-    stageId: {
-      type: Number,
-      required: true,
-    },
-    step: {
-      type: Number,
+    stage: {
+      type: Object,
       required: true,
     },
   },
   methods: {
     nextPhoto() {
-      this.$bus.$emit("stage-completed", this.step);
+      this.$bus.$emit("stage-completed", this.stage.id);
     },
     takePhoto() {
-      this.photoTaken = true;
       this.$refs.photoInput.click();
     },
-    cameraTriggered() {
+    evalPhoto() {
       this.photoLoaded = this.$refs.photoInput.value.length > 0;
     },
     async onSubmit() {
       let formData = new FormData(this.$refs.form.$el);
 
-      this.photoTaken = this.$refs.photoInput.value.length > 0;
-
-      if (this.photoTaken) {
+      if (this.photoLoaded) {
         this.loading = true;
 
         this.$axios({
@@ -107,11 +150,13 @@ export default {
           },
         })
           .then((response) => {
-            this.$bus.$emit("stage-completed", this.step);
-            this.loading = false;
+            this.photoUploaded = true;
           })
           .catch((error) => {
-            this.hasError = true;
+            this.photoLoaded = false;
+            this.uploadError = true;
+          })
+          .then(() => {
             this.loading = false;
           });
       }
