@@ -1,15 +1,15 @@
 version: '3.8'
-
 services:
   db:
     container_name: training.proyectothera.com.ar_db
-    image: linuxserver/mariadb:latest
+    # this is the only implementation compatible with armv7
+    image: linuxserver/mariadb:10.5.15
     env_file: docker/production/.env
-    volumes:
-      - db_data:/config
     logging:
       driver: none
-    restart: unless-stopped
+    # volumes:
+    #   - db_data:/config
+    # restart: unless-stopped
     networks:
       - default
 
@@ -20,23 +20,30 @@ services:
       context: .
       dockerfile: docker/production/web/Dockerfile
       args:
-        # downgraded because of this
-        # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#time64_requirements
-        - RUBY_VERSION=2.6.6-alpine3.12
-        - BUNDLER_VERSION=2.2.14
+        # [Choice] Ruby version: 2, 2.7, 2.7.4
+        RUBY_VERSION: "2.7.4"
+        # [Choice] Node.js version: lts, 16, 14, 12, 10
+        NODE_VERSION: "14"
+        # On Linux, you may need to update UID and GID below if not your local UID is not 1000.
+        UID: 1000
+        GID: 1000
     env_file: docker/production/.env
-    restart: unless-stopped
+    # restart: unless-stopped
     volumes:
-      - web_gems:/usr/local/bundle
-      - web_modules:/usr/local/app/node_modules
-      - web_uploads:/usr/local/app/private/uploads
+      # - web_gems:/usr/local/bundle
+      - web_log:/usr/local/app/log
+      # - web_modules:/usr/local/app/node_modules
+      - web_uploads:/usr/local/app/private/web_uploads
     depends_on:
       - db
     networks:
       - default
+    ports:
+      - 3000:3000/tcp
 
 volumes:
-  db_data:
-  web_gems:
-  web_modules:
+  # db_data:
+  # web_gems:
+  web_log:
+  # web_modules:
   web_uploads:

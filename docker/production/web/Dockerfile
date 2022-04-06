@@ -1,46 +1,104 @@
-# https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
-# https://gist.github.com/zentetsukenz/5e330b801f983e3d39757686dcb41cc2
+ARG RUBY_VERSION="2.7.4"
 
-ARG RUBY_VERSION
-FROM ruby:$RUBY_VERSION AS base
+FROM ruby:${RUBY_VERSION}-alpine AS builder
 
-ENV RAILS_APP /usr/local/app
-RUN apk update -qq 
-RUN apk add -q build-base tzdata mariadb-dev shared-mime-info
+ARG NODE_VERSION="14"
 
-ARG BUNDLER_VERSION
-RUN gem update --system
-RUN gem install bundler:$BUNDLER_VERSION
+ENV BUNDLER_VERSION="2.2.16" \
+    NODE_ENV="production" \
+    RAILS_APP="/usr/local/app" \
+    RAILS_ENV="production" \
+    RACK_ENV="production" \
+    SECRET_KEY_BASE="production"
 
-WORKDIR /tmp
-COPY Gemfile Gemfile.lock /tmp/
-RUN bundle install --jobs 4 --retry 3
+WORKDIR ${RAILS_APP}
 
-WORKDIR /usr/local/app
-COPY . /usr/local/app
+ADD . ${RAILS_APP}
 
-# nodejs
-FROM base AS nodejs
+RUN apk update -qq && \
+    apk add -q --no-cache \
+      build-base \
+      git \
+      mariadb-dev \
+      nodejs~=${NODE_VERSION} \
+      python2 \
+      shared-mime-info \
+      tzdata \
+      yarn && \
+    # https://bundler.io/man/bundle-config.1.html
+    gem install bundler -v ${BUNDLER_VERSION} && \
+    bundle config set cache_all 1 && \
+    bundle config set deployment 1 && \
+    bundle config set jobs 8 && \
+    bundle config set retry 5 && \
+    bundle config set without development:test:ubuntu && \
+    bundle install && \
+    rm -rf /usr/local/bundle/cache/*.gem && \
+    find /usr/local/bundle/gems/ -name "*.c" -delete && \
+    find /usr/local/bundle/gems/ -name "*.o" -delete && \
+    # https://classic.yarnpkg.com/en/docs/cli/install/
+    yarn install --frozen-lockfile --non-interactive --production && \
+    bundle exec rake assets:precompile && \
+    yarn cache clean && \
+    rm -rf node_modules tmp/cache vendor/assets test
 
-RUN apk add -q nodejs python2 yarn
+FROM ruby:${RUBY_VERSION}-alpine
 
-ENV PYTHON /usr/bin/python2
-RUN yarn install --no-lockfile --production
-RUN bundle exec rake webpacker:compile RAILS_ENV=production
+ARG USR="appuser"
+ARG GRP="appgroup"
+ARG UID="1000"
+ARG GID="1000"
 
-# production
-FROM base AS production
+ENV RAILS_APP="/usr/local/app" \
+    RAILS_ENV="production" \
+    RAILS_LOG_TO_STDOUT=1 \
+    RAILS_SERVE_STATIC_FILES=1
 
-# RUN rm -rf ./node_modules ./public/packs ./tmp /tmp/* \
-#     && bundle exec rake tmp:create
+RUN addgroup --gid "${GID}" -S "${GRP}"
 
-# FIXME
-# don't remove node_modules because of rpi4 io performance
-RUN rm -rf ./public/packs ./tmp /tmp/* \
-    && bundle exec rake tmp:create
+# https://linux.die.net/man/8/adduser
+# https://qastack.mx/programming/49955097/how-do-i-add-a-user-when-im-using-alpine-as-a-base-image
+RUN adduser \
+  --home "/home/${USR}" \
+  --gecos "" \
+  --shell "/bin/sh" \
+  --ingroup "${GRP}" \
+  --disabled-password \
+  --uid "${UID}" \
+  "${USR}"
 
-COPY --from=nodejs "$RAILS_APP/public/packs" "$RAILS_APP/public/packs"
+# https://ostechnix.com/add-delete-and-grant-sudo-privileges-to-users-in-alpine-linux/
+# https://www.codegrepper.com/code-examples/shell/alpine+docker+add+user+and+group
+# https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user#adduser
+
+RUN echo "${USR} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
+RUN mkdir -p ${RAILS_APP} && chown "${USR}:${GRP}" ${RAILS_APP} -R
+
+USER ${UID}:${GID}
+
+WORKDIR ${RAILS_APP}
+
+COPY --chown=${UID}:${GID} --from=builder /usr/lib /usr/lib
+# COPY --chown=${UID}:${GID} --from=builder /usr/share/fonts /usr/share/fonts
+COPY --chown=${UID}:${GID} --from=builder /usr/share/mime /usr/share/mime
+COPY --chown=${UID}:${GID} --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --chown=${UID}:${GID} --from=builder /usr/local/bundle /usr/local/bundle
+
+# COPY --from=builder ${RAILS_APP} ${RAILS_APP}
+
+COPY --chown=${UID}:${GID} --from=builder ${RAILS_APP}/app ${RAILS_APP}/app
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/bin ${RAILS_APP}/bin
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/config ${RAILS_APP}/config
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/db ${RAILS_APP}/db
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/lib ${RAILS_APP}/lib
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/public ${RAILS_APP}/public
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/storage ${RAILS_APP}/storage
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/vendor ${RAILS_APP}/vendor
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/Gemfile ${RAILS_APP}/Gemfile.lock ${RAILS_APP}/config.ru ${RAILS_APP}/Rakefile ${RAILS_APP}/
+COPY --chown=${USR}:${GID} --from=builder ${RAILS_APP}/docker/production/web/start.sh ${RAILS_APP}/
+
+RUN mkdir -p ${RAILS_APP}/tmp/pids
 
 EXPOSE 3000
 
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["sh", "-c", "./start.sh"]

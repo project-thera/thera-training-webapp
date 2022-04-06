@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2021_03_18_013550) do
 
-  create_table "photos", charset: "utf8mb4", force: :cascade do |t|
+  create_table "photos", charset: "utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "stage_id", null: false
     t.string "photo", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_03_18_013550) do
     t.index ["user_id"], name: "index_photos_on_user_id"
   end
 
-  create_table "stages", charset: "utf8mb4", force: :cascade do |t|
+  create_table "stages", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.string "label", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2021_03_18_013550) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", charset: "utf8mb4", force: :cascade do |t|
+  create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "email", null: false
     t.string "last_session_id"
     t.datetime "created_at", precision: 6, null: false

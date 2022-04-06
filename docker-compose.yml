@@ -1,43 +1,42 @@
-# https://docs.docker.com/compose/rails/
-
 version: '3.8'
-
 services:
   db:
-    image: linuxserver/mariadb:latest
-    environment:
-      - TZ=America/Argentina/Buenos_Aires
+    env_file: docker/development/.env
+    # this is the only implementation compatible with armv7
+    image: linuxserver/mariadb:10.5.15
     volumes:
       - db_data:/config
     logging:
       driver: none
 
   web: &web
+    env_file: docker/development/.env
     build:
       context: .
-      dockerfile: ./docker/development/web/Dockerfile
+      dockerfile: docker/development/web/Dockerfile
       args:
-        # downgraded because of this
-        # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#time64_requirements
-        RUBY_VERSION: '2.6.6-alpine3.12'
-        BUNDLER_VERSION: '2.2.14'
-    environment:
-      - SECREY_KEY_BASE=9e803c5c2d3f977ca3bd09220f008ca2e076d28bfe4b09427e212bab0c14942ba26ee6
-      - RAILS_MASTER_KEY=55104b2c20be7e20f0894f5972e04316
-      - EDITOR=vi
-      - WEBPACKER_DEV_SERVER_HOST=webpacker
+        # [Choice] Ruby version: 2, 2.7, 2.7.4
+        RUBY_VERSION: "2.7.4"
+        # [Choice] Node.js version: lts, 16, 14, 12, 10
+        NODE_VERSION: "14"
+        # [Choice] Rails version: 6.1, 6.1.4
+        RAILS_VERSION: "6.0.0"
+        # On Linux, you may need to update UID and GID below if not your local UID is not 1000.
+        UID: 1000
+        GID: 1000
+    tty: true
+    stdin_open: true
     volumes:
       - .:/usr/local/app:cached
       - gems:/usr/local/bundle
-    ports:
-      - 3000:3000
     depends_on:
       - db
+    ports:
+      - 3000:3000
 
   webpacker:
-    build:
-      context: .
-      dockerfile: ./docker/development/webpacker/Dockerfile
+    <<: *web
+    command: sh -c "rm -rf public/packs; ./bin/webpack-dev-server --inline --hot true"
     ports:
       - 3035:3035
     depends_on:
